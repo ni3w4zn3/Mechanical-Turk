@@ -33,7 +33,7 @@ if ($step == 1) {
 	fclose($f);
 	asort($data['images']);
 	asort($data['fillers']);
-	$data['images'] = array_keys($data['images']);
+	$data['images'] = array_keys(array_slice($data['images'], 0, floor(MAX_IMAGES/2)));
 	$data['fillers'] = array_keys(array_slice($data['fillers'], 0,count($data['images'])));
 	
 	$data['trials'] = array();
@@ -88,7 +88,11 @@ $hash = makeHash($dataString);
 		
 		<script>
 			var maxSelected = <?php echo MAX_SELECTIONS?>;
+			var startTIme = 0;
 			
+			$(document).ready(function() {
+					startTime = (new Date()).getTime();
+			});
 			
 			$('input[name=next]').bind('click', function(event) {
 				if (maxSelected == 0) {
@@ -103,6 +107,8 @@ $hash = makeHash($dataString);
 			});
 			
 			$('#stimuli').bind('click', function( event ){
+					var time = (new Date()).getTime();
+					
 					var d = $('#stimuli');
 					
 					var x = (event.pageX - d.offset().left);
@@ -121,8 +127,10 @@ $hash = makeHash($dataString);
 					
 					$('input[name=next]').removeAttr('disabled');
 					
+					time = time - startTime;
+					
 					var prevCoords = $('input[name=coords]').val();
-					var coords = (x+','+y+','+label);
+					var coords = (x+','+y+','+label + ',' + time);
 					$('input[name=coords]').val(prevCoords + coords + ';');
 					
 					var labelBox = document.createElement('div')

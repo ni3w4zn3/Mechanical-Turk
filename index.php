@@ -1,6 +1,7 @@
 <?php
 
 define('MAX_SELECTIONS', 3);
+define('MAX_IMAGES', 30);
 
 define('IMAGE_LIST', 'img/list.txt');
 define('IMAGE_DIR', 'img/');
