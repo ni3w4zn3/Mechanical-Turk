@@ -19,6 +19,7 @@ $step = intval($_REQUEST['step']);
 
 $data = array();
 if ($step == 1) {
+	$data['screenSize'] = $_REQUEST['screen'];
 	$data['condition'] = rand() % count($criticalQuestions);
 	$pivot = rand() % count($criticalQuestions);
 	
@@ -44,8 +45,9 @@ if ($step == 1) {
 }
 
 if (!count($data['images']) && !count($data['fillers'])) {
-	$f = fopen(BASE_DIR.OUT_DIR.'/' . $data['condition']. '_' .time(), 'w');
-	
+	$fileName= $data['condition']. '_' .time();
+	$f = fopen(BASE_DIR.OUT_DIR.'/' . $fileName, 'w');
+	fwrite($f, '@'.$data['screenSize']."\n");
 	foreach($data['trials'] as $img => $info) {
 		fwrite($f, '['.$img.']:[' . $info['question'].']:['.$info['coords']."]\n");
 	}
